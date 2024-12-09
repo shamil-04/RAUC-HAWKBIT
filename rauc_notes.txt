@@ -1,0 +1,43 @@
+cd ~/poky-rpi-rauc/build/tmp/work/raspberrypi4-poky-linux-gnueabi/linux-raspberrypi/1_5.15.92+gitAUTOINC+509f4b9d68_14b35093ca-r0/build/
+
+cat .config | grep CONFIG_SQUASHFS
+
+find ~/poky-rpi-rauc -name defconfig
+
+bitbake -c clean virtual/kernel
+
+bitbake virtual/kernel
+
+bitbake core-image-minimal
+
+fw_printenv
+
+fw_printenv | grep rauc
+
+rauc status
+
+fw_printenv | grep root
+
+fw_setenv bootpart /dev/mmcblk0p3
+fw_setenv rauc.slot B
+fw_setenv bootargs 'root=/dev/mmcblk0p3 rootfstype=ext4 rootwait rauc.slot=B'
+
+cat /etc/rauc/system.conf
+
+fw_setenv bootpart /dev/mmcblk0p2
+fw_setenv rauc.slot A
+fw_setenv bootargs 'root=/dev/mmcblk0p2 rootfstype=ext4 rootwait rauc.slot=A'
+
+fw_printenv | grep -E 'BOOT_ORDER|BOOT_A_LEFT|BOOT_B_LEFT|bootpart|raucslot|bootargs'
+fw_setenv BOOT_ORDER "A B"
+fw_setenv BOOT_A_LEFT 3
+fw_setenv BOOT_B_LEFT 3
+
+bitbake virtual/kernel -c menuconfig
+
+cat ~/poky-rpi-rauc/build/tmp/work/raspberrypi4-poky-linux-gnueabi/linux-raspberrypi/1_5.15.92+gitAUTOINC+509f4b9d68_14b35093ca-r0/build/.config | grep -E "CONFIG_SQUASHFS|CONFIG_BLK_DEV_LOOP"
+
+
+sudo systemctl restart grafana-server
+echo -n 'admin:admin' | base64
+
