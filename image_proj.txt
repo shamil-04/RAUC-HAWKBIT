@@ -1,0 +1,19 @@
+ssh -J shamil@192.168.1.100 shamil@192.168.122.84
+bitbake -c clean base-files
+bitbake -c cleansstate base-files
+bitbake -c cleanall core-image-minimal
+cat /home/shamil/poky-rpi-rauc/build/tmp/work/raspberrypi4-poky-linux-gnueabi/base-files/3.0.14-r89/temp/log.do_package - for errors
+
+
+RPM_EXCLUDE = "package_rpm"
+PACKAGE_PREPROCESS_FUNCS_remove = "rpmdeps"
+do_package[noexec] = "1"
+
+
+
+mvn clean install -DskipTests
+
+curl -X GET http://192.168.1.39:8080/rest/v1/targets/RPI-001/attributes \
+-H 'accept: application/json' \
+-u admin:admin
+
