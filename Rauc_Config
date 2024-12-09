@@ -29,7 +29,7 @@ Download Poky, the reference distribution of the Yocto Project:
 git clone -b dunfell git://git.yoctoproject.org/poky poky-rpi-rauc
 cd poky-rpi-rauc
 Download meta-openembedded layer:
-git clone -b dunfell git://git.openembedded.org/meta-openembedded
+git clone -b dunfell or kirkstone git://git.openembedded.org/meta-openembedded
 Download Yocto/OE BSP layer meta-raspberrypi:
 git clone -b dunfell git://git.yoctoproject.org/meta-raspberrypi
 Download Yocto/OE layers for RAUC:
